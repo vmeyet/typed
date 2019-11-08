@@ -1,3 +1,7 @@
+require:
+    - rubocop-rails
+    - rubocop-performance
+
 AllCops:
   Include:
     - Gemfile
@@ -5,10 +9,10 @@ AllCops:
   TargetRubyVersion: 2.3
 
 # Begin -- Keep the following
-CaseIndentation:
+Layout/CaseIndentation:
     EnforcedStyle: end
 
-ParameterLists:
+Metrics/ParameterLists:
     Max: 5
     CountKeywordArgs: false
 
@@ -51,13 +55,13 @@ Layout/ExtraSpacing:
 Layout/IndentationWidth:
     Width: 4
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
     EnforcedStyle: consistent
 
 Layout/MultilineOperationIndentation:
     EnforcedStyle: indented
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
     Enabled: False
 
 Layout/IndentHeredoc:
@@ -84,7 +88,7 @@ Lint/NestedMethodDefinition:
 Lint/SafeNavigationChain:
     Enabled: True
 
-Lint/UnneededSplatExpansion:
+Lint/RedundantSplatExpansion:
     Enabled: False
 
 Lint/UselessAccessModifier:

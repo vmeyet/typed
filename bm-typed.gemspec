@@ -21,8 +21,10 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'coveralls', '~> 0.8'
   gem.add_development_dependency 'pry', '~> 0'
   gem.add_development_dependency 'rspec', '~> 3'
-  gem.add_development_dependency 'rubocop', '0.59.2'
+  gem.add_development_dependency 'rubocop', '0.76.0'
+  gem.add_development_dependency 'rubocop-rails', '2.3.2'
+  gem.add_development_dependency 'rubocop-performance', '1.5.0'
 
-  gem.add_dependency 'activesupport', '~> 5.2'
+  gem.add_dependency 'activesupport', '~> 6.0'
   gem.add_dependency 'dry-logic', '~> 0.4.2'
 end
