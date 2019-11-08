@@ -12,6 +12,7 @@ describe Typed do
             context do
                 let(:value) { Typed::Undefined }
                 it { is_expected.to eq(Typed::Undefined) }
+                it { is_expected.to be_blank }
             end
 
             context do
@@ -83,6 +84,43 @@ describe Typed do
                 let(:type) { Typed.array(Typed::Float | Typed::UUID) }
                 let(:value) { ['13CD8b90-d70f-490a-8872-f11b60afe80c', '45.2', 12] }
                 it { is_expected.to eq ['13cd8b90-d70f-490a-8872-f11b60afe80c', 45.2, 12] }
+            end
+        end
+
+        describe '.struct' do
+            context do
+                let(:type) {
+                    Typed.struct {
+                        attribute :id, Typed::Int
+                        attribute :data, (Typed.struct { attribute :foo, Typed::String })
+                    }
+                }
+                let(:value) { { id: 1, data: { foo: 'bar' } } }
+                it { is_expected.to have_attributes(data: have_attributes(foo: 'bar'), id: 1) }
+            end
+        end
+
+        describe '.undefined?' do
+            subject { Typed.undefined?(value) }
+
+            context do
+                let(:value) { '12' }
+                it { is_expected.to be_falsy }
+            end
+
+            context do
+                let(:value) { [] }
+                it { is_expected.to be_falsy }
+            end
+
+            context do
+                let(:value) { nil }
+                it { is_expected.to be_falsy }
+            end
+
+            context do
+                let(:value) { Typed::Undefined }
+                it { is_expected.to be_truthy }
             end
         end
 
@@ -250,6 +288,19 @@ describe Typed do
             let(:a) { A.new(b) }
 
             it { expect(a).to have_attributes(a: 'coucou') }
+        end
+
+        describe '#to_h' do
+            class D < Typed::Struct
+                attribute :d, (Typed.struct {
+                    attribute :d1, Typed::String.default('1')
+                    attribute :d2, Typed::String.default('2')
+                })
+            end
+
+            let(:d) { D.new(d: { d1: '11' }) }
+
+            it { expect(d.to_h).to eq(d: { d1: '11', d2: '2' }) }
         end
     end
 end

@@ -30,6 +30,16 @@ module Typed
         def value(expected_value)
             constrained(eql: call(expected_value))
         end
+
+        def struct(&definition)
+            anon_class = Class.new(::Typed::Struct)
+            anon_class.class_eval(&definition)
+            anon_class
+        end
+
+        def undefined?(value)
+            Undefined.equal?(value)
+        end
     end
 
     # Undefined is both:
@@ -45,6 +55,10 @@ module Typed
                 else
                     Typed::Builder::Result.failure { 'Expected value undefined' }
                 end
+            end
+
+            def !
+                true
             end
         end
     end

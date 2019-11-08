@@ -115,7 +115,7 @@ module Typed
         end
 
         def to_h
-            @_data
+            @_data.map { |key, val| [key, val.is_a?(::Typed::Struct) ? val.to_h : val] }.to_h
         end
 
         def [](key)
